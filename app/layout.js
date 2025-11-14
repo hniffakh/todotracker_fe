@@ -21,7 +21,8 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className="bg-gray-100 min-h-screen p-10">
         <div className="max-w-xl mx-auto bg-white p-8 rounded-2xl shadow-md">
-          <h1 className="text-3xl font-bold mb-6 text-center">🧠 Todo Tracker</h1>
+          <h1 className="text-3xl font-bold text-gray-700 flex items-center gap-2 mb-6 justify-center">
+            🧠 Todo Tracker</h1>
           {children}
         </div>
       </body>

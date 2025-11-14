@@ -9,7 +9,6 @@ export default function HomePage() {
   const [description, setDescription] = useState("");
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-  // Ambil data todo dari backend
   const fetchTodos = async () => {
     const res = await fetch(`${API_URL}/todos`);
     const data = await res.json();
@@ -20,7 +19,7 @@ export default function HomePage() {
     fetchTodos();
   }, []);
 
-  // Tambah todo baru
+  // Add Data
   const addTodo = async (e) => {
     e.preventDefault();
     if (!title.trim()) return;
@@ -36,7 +35,7 @@ export default function HomePage() {
     fetchTodos();
   };
 
-  // Hapus todo
+  // Delete Data
   const deleteTodo = async (id) => {
     await fetch(`${API_URL}/todos/${id}`, { method: "DELETE" });
     fetchTodos();
@@ -81,17 +80,24 @@ export default function HomePage() {
       </form>
 
       <div>
-        {todos.length === 0 ? (
-          <p className="text-center text-gray-500">Belum ada todo</p>
+        {Array.isArray(todos) ? (
+          todos.length === 0 ? (
+            <p className="text-center text-gray-500">Belum ada todo</p>
+          ) : (
+            todos
+              .slice()
+              .sort((a, b) => a.completed - b.completed)
+              .map((todo) => (
+                <TodoItem
+                  key={todo.id}
+                  todo={todo}
+                  onDelete={deleteTodo}
+                  onToggle={toggleCompleted}
+                />
+              ))
+          )
         ) : (
-          todos.map((todo) => (
-            <TodoItem
-              key={todo.id}
-              todo={todo}
-              onDelete={deleteTodo}
-              onToggle={toggleCompleted}
-            />
-          ))
+          <p className="text-red-500">Error: Data dari server tidak valid!</p>
         )}
       </div>
     </div>
